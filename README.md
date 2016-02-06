@@ -1,3 +1,4 @@
-#ALL YOUR WEBSITE ARE BELONG TO US
+zerowing
+========
 
-Pentesting API made with Symfony.
+A Symfony project created on February 6, 2016, 2:12 pm.
