@@ -1,12 +1,11 @@
 <?php
-
 /**
  * File Reporter.php
  *
  * PHP Version 5.6
  *
  * @category  Class
- * @package   Package zerowing
+ * @package   Zerowing
  * @author    mrgn <xyz@example.com>
  * @copyright 2016 mrgn
  * @license   MIT http://choosealicense.com/licenses/mit/
@@ -15,35 +14,58 @@
 
 namespace AppBundle\Utils\Reporter;
 
+/**
+ * Class Reporter
+ * @category  Class
+ * @package AppBundle\Utils\Reporter
+ * @author    mrgn <xyz@example.com>
+ * @copyright 2016 mrgn
+ * @license   MIT http://choosealicense.com/licenses/mit/
+ * @link      http://lorem.ovh
+ */
 class Reporter
 {
-    /** @var  Report[] */
-    private $reports;
+    /**
+     * Store all reports
+     * @var  Report[]
+     */
+    private $_reports;
 
-    /** @var  string */
-    private $type;
+    /**
+     * Type of the Reports
+     * @var  string
+     */
+    private $_type;
 
     /**
      * Reporter constructor.
-     * @param $type string
+     * @param string $type the type of the report
      */
     public function __construct($type = "")
     {
-        $this->$type = $type;
+        $this->_type = $type;
     }
 
-    // TODO secure it
+    /**
+     * Log a message
+     * @param string $msg A message to you ho... :)
+     * @return void
+     */
     public function report($msg)
     {
         $report = new Report();
-        $report->setType($this->type)
+        $report->setType($this->_type)
             ->setMsg($msg);
 
-        $this->reports[] = $report;
+        $this->_reports[] = $report;
     }
 
+    /**
+     * Return all reports
+     * @return Report[]
+     */
     public function getReports()
     {
-        return $this->reports;
+        return $this->_reports;
     }
 }

@@ -6,7 +6,7 @@
  * PHP Version 5.6
  *
  * @category  Class
- * @package   Package zerowing
+ * @package   Zerowing
  * @author    mrgn <xyz@example.com>
  * @copyright 2016 mrgn
  * @license   MIT http://choosealicense.com/licenses/mit/
@@ -15,39 +15,57 @@
 
 namespace AppBundle\Utils\Reporter;
 
+/**
+ * Class Report
+ * @category  Class
+ * @package AppBundle\Utils\Reporter
+ * @author    mrgn <xyz@example.com>
+ * @copyright 2016 mrgn
+ * @license   MIT http://choosealicense.com/licenses/mit/
+ * @link      http://lorem.ovh
+ */
 class Report
 {
-    /** @var  string */
-    private $type;
-    /** @var  string */
-    private $msg;
+    /**
+     * Type of the report
+     * @var  string
+     */
+    private $_type;
+    /**
+     * String message
+     * @var  string
+     */
+    private $_msg;
 
     /**
-     * @param string $type
+     * Setter
+     * @param string $type set type of the message
      * @return Report
      */
     public function setType($type)
     {
-        $this->type = $type;
+        $this->_type = $type;
 
         return $this;
     }
 
     /**
-     * @return string
+     * Getter
+     * @return string return a message
      */
     public function getMsg()
     {
-        return $this->msg;
+        return $this->_msg;
     }
 
     /**
-     * @param string $msg
+     * Setter
+     * @param string $msg set a message
      * @return Report
      */
     public function setMsg($msg)
     {
-        $this->msg = $msg;
+        $this->_msg = $msg;
 
         return $this;
     }
