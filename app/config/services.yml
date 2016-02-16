@@ -12,5 +12,7 @@ services:
         arguments: ["@guzzle.client"]
     guzzle.client:
         class: %guzzle.client.class%
-        
-
+    guzzle.plugin.cookie:
+        class: %guzzle.plugin.cookie.class%
+        calls:
+            - [addSubscriber, ['@guzzle.client']]

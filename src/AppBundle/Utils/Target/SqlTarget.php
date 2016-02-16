@@ -15,7 +15,64 @@
 namespace AppBundle\Utils\Target;
 
 
-class SqlTarget
+class SqlTarget implements TargetInterface
 {
 
+    /**
+     * The URL tested. Without parameters.
+     *
+     * @var string
+     */
+    private $_url;
+
+    /**
+     * Stores Parameters as
+     *  "key"=>"default_value"
+     *  note: defautl value can be empty.
+     *
+     * example:
+     * array(
+     *  "user"     =>"admin"
+     *  "password" => null
+     * )
+     *
+     * @var array
+     */
+    private $_request_parameters;
+
+    /**
+     * @inheritdoc
+     * @return void
+     */
+    function setUrl($url)
+    {
+        $this->_url = $url;
+    }
+
+    /**
+     * @inheritdoc
+     * @return string
+     */
+    function getUrl()
+    {
+        return $this->_url;
+    }
+
+    /**
+     * @inheritdoc
+     * @return void
+     */
+    function setParameters($params)
+    {
+        $this->_request_parameters = $params;
+    }
+
+    /**
+     * @inheritdoc
+     * @return array
+     */
+    function getParameters()
+    {
+        return $this->_request_parameters;
+    }
 }

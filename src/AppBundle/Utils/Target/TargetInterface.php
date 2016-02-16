@@ -26,9 +26,9 @@ interface TargetInterface
 {
     /**
      * Set an url, can be a URL or an IP address
-     * @return mixed
+     * @return void
      */
-    function setUrl();
+    function setUrl($url);
 
     /**
      * Return the url of a target
@@ -41,9 +41,9 @@ interface TargetInterface
      * In case of SQL Injection it would be URL parameters
      * In case of Port Scanning it would be a range of ports
      * In case of bruteforce it could be URL parameters or type of bruteforce
-     * @return mixed
+     * @return void
      */
-    function setParameters();
+    function setParameters($params);
 
     /**
      * Returns the parameters
