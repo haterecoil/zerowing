@@ -1,6 +1,7 @@
 zerowing
 ========
 
+<<<<<<< HEAD
     All your servers are belong to us
     
     
@@ -14,7 +15,9 @@ TODO LIST (ordered by priority) :
 [] Detect 1 XSS
 [] PHPCS 101
 [] Retrieve SQL data
-[] MOAR ?A Symfony project created on February 6, 2016, 2:12 pm.
+[] MOAR ?
+=======
+A Symfony project created on February 6, 2016, 2:12 pm.
 
 TEAM :
 
@@ -24,3 +27,4 @@ LAWSON Clarisse
 LE SAOUT Morgane
 POLIN Ronan
 TARRIERE Milena
+>>>>>>> 78b80b770e1adaf972f0c94ab30a22689281a982
