@@ -59,7 +59,9 @@ class SqlErrorController extends Controller
         $this->_log[] = $goslingPentester->testAndGetReport($target);
 
         //renvoyer une réponse
-        return $this->render('@App/dump.html.twig');
+        return $this->render('@App/dump.html.twig', array(
+            'report' => $this->_log
+        ));
     }
 }
 
