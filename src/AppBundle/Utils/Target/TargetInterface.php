@@ -50,4 +50,17 @@ interface TargetInterface
      * @return mixed
      */
     function getParameters();
+
+    /**
+     * Set the HTTP Method/Verb
+     * @param string $method
+     * @return mixed
+     */
+    function setMethod($method);
+
+    /**
+     * Return the HTTP Method/verb
+     * @return string
+     */
+    function getMethod();
 }
