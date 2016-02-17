@@ -11,12 +11,19 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Utils\Reporter;
+use AppBundle\Utils\Target;
+use AppBundle\Utils\Pentester;
 
-class DefaultController extends Controller
+class SqlErrorController extends Controller
 {
+
     /**
-     * @Route("/sql-error", name="SQL")
+     * Stores all reports made by Pentesters
+     * @var  Reporter\Report[]
      */
+    private $_log;
+
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
@@ -25,20 +32,34 @@ class DefaultController extends Controller
         ));
     }
 
-    private function sqlTest()
+    /**
+     * Receive a request OK
+     * Creates a Target OK
+     * Calls Ryan Gosling with Target OK
+     * Sends a Response OK
+     *
+     * @Route('/sql-error')
+     */
+    public function doSqlError(Request $request)
     {
+        //création de la target
+        $target = new Target\SqlTarget();
+        $target->setUrl($request->get('url'));
+        $target->setParameters($request->query->all());
 
-        $ch = curl_init("http://www.google.com/search"."?q=lol");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt ($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)");
-        $result = curl_exec($ch);
-        curl_close($ch);
-        return $result;
+        /**
+         * SQL pentesting service
+         * todo put in priv var ?
+         * @var $sqlPentester Pentester\SqlPentester
+         */
+        //création du goslinger
+        $goslingPentester = $this->get('app.pentester.sql');
+
+        //appel du goslinger et sauvegarde des logs
+        $this->_log[] = $goslingPentester->testAndGetReport($target);
+
+        //renvoyer une réponse
+        return $this->render('@App/dump.html.twig');
     }
-
-    $result2 = sqlTestGet();
-    ?>
-    <p><?php echo $result2 ?></p>
-
 }
 
