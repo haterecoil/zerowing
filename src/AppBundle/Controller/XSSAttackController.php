@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\XSSAttack;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Form\XSSAttackType;
+use Misd\GuzzleBundle\MisdGuzzleBundle;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -22,6 +23,16 @@ class XSSAttackController extends Controller
      */
     public function indexAction()
     {
+        /**
+         * @var \Guzzle\Service\Client $client
+         */
+        $client = $this->get('guzzle.client');
+        $request = $client->get('http://lorem.ovh/');
+        $result = $request->send();
+
+        dump($result);
+        die();
+
         $em = $this->getDoctrine()->getManager();
 
         $xSSAttacks = $em->getRepository('AppBundle:XSSAttack')->findAll();
