@@ -7,3 +7,12 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.pentester.sql:
+        class: AppBundle\Utils\Pentester\SqlPentester
+        arguments: ["@guzzle.client"]
+    guzzle.client:
+        class: %guzzle.client.class%
+    guzzle.plugin.cookie:
+        class: %guzzle.plugin.cookie.class%
+        calls:
+            - [addSubscriber, ['@guzzle.client']]
