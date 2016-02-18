@@ -39,6 +39,7 @@ class SqlTarget implements TargetInterface
      * @var array
      */
     private $_request_parameters;
+    private $_method;
 
     /**
      * @inheritdoc
@@ -74,5 +75,23 @@ class SqlTarget implements TargetInterface
     function getParameters()
     {
         return $this->_request_parameters;
+    }
+
+    /**
+     * Set the HTTP Method/Verb
+     * @param string $method
+     * @return bool
+     */
+    function setMethod($method){
+        $method = strtolower($method);
+        $this->_method = $method;
+    }
+
+    /**
+     * Return the HTTP Method/verb
+     * @return string
+     */
+    function getMethod(){
+        return $this->_method;
     }
 }
