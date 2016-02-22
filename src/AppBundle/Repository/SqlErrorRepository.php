@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\SqlError;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -12,6 +13,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class SqlErrorRepository extends EntityRepository
 {
+    /**
+     * @param int $id
+     * @return SqlError
+     */
     public function getSqlError($id = 1)
     {
         $sql_error = $this->findOneBy(
