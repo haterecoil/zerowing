@@ -15,8 +15,8 @@ class DefaultController extends Controller
 
     // utilitaire pour vérifier qu'un site a bien installé le fichier de vérification
     private function verifierCode($site) {
-        //$codeUrl = strtolower($site) . "/" . self::$verificationFile;
-        $codeUrl = strtolower($site);
+        $codeUrl = strtolower($site) . "/" . self::$verificationFile;
+
         if (substr($codeUrl, 0, 7) !== "http://" || substr($codeUrl, 0, 8) !== "https://") {
             $codeUrl = "http://" . $codeUrl;
         }
@@ -26,7 +26,9 @@ class DefaultController extends Controller
             $code = file_get_contents($codeUrl);
         } catch (\Exception $e) {
             // montrer un message à l'utilisateur pour dire que le site n'existe pas
-            return new Response("Site inexistant");
+            return false;
+
+
         }
 
 
@@ -49,7 +51,7 @@ class DefaultController extends Controller
         $url = $request->get("url");
 
         if ($this->verifierCode($url)) {
-            return $this->render('zerowing/tests.html.twig', array(
+            return $this->render('zerowing/Process.html.twig', array(
                 'url' => $url
             ));
         } else {
@@ -86,14 +88,15 @@ class DefaultController extends Controller
      */
     public function zerowingVerificationAction(Request $request)
     {
-        $url = $request->get("urlficsursite");
+        $url = $request->get("url");
+        //return $this->verifierCode($url);
 
-        if ($this->verifierCode($url)) {
-            return $this->redirect('/zerowing/tests?url='. $url);
+        if  ((!$this->verifierCode($url)))
+        {
+              return $this->redirect('/zerowing/procedure?url='. $url);
+
         } else {
-
-            //echo"l'url que vous tapez est mauvaise ou le fichier trouvé ne correspond pas à celui téléchargé sur notre site";
-            return $this->redirect('/zerowing/procedure?url='. $url);
+          return $this->redirect('/zerowing/tests?url='. $url);
         }
     }
 
