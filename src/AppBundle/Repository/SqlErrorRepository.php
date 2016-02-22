@@ -22,4 +22,5 @@ class SqlErrorRepository extends EntityRepository
 
         return $sql_error;
     }
+
 }
