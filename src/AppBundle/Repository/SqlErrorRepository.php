@@ -12,11 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class SqlErrorRepository extends EntityRepository
 {
-    function getSqlError()
+    public function getSqlError($id = 1)
+    {
 
-    // chercher dans base de donnée
-    // send value
-    // id ++
+        $sql_error = $this->findOneBy(
+            array('id' => $id)
+        );
 
+        dump($sql_error);
 
+        return $sql_error;
+    }
 }

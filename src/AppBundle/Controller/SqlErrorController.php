@@ -38,7 +38,7 @@ class SqlErrorController extends Controller
      * Calls Ryan Gosling with Target OK
      * Sends a Response OK
      *
-     * @Route('/sql-error')
+     * @Route("/sql-error")
      */
     public function doSqlError(Request $request)
     {
