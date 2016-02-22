@@ -14,7 +14,6 @@ class SqlErrorRepository extends EntityRepository
 {
     public function getSqlError($id = 1)
     {
-
         $sql_error = $this->findOneBy(
             array('id' => $id)
         );
