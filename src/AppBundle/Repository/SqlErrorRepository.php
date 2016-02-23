@@ -14,11 +14,13 @@ use Doctrine\ORM\EntityRepository;
 class SqlErrorRepository extends EntityRepository
 {
     /**
+     * here we get the sql strings from the DB by his id
+     * if id is not defined id = 1
+     *
      * @param int $id
      * @return SqlError
      */
-    //here we get the sql strings from the DB by his id
-    // if id not defined id = 1
+
     public function getSqlError($id = 1)
     {
         //we find one by the id
