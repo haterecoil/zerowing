@@ -2,12 +2,17 @@
     <h1>Vérification de propriété</h1>
     <p>Afin de vérifier que vous êtes bien le propriétaire du site et de vous donnez accès à nos tests veuillez suivre les instructions suivantes :  </p>
     <br></br>
-    <p>1 : Télécharger le fichier de validation html </p>
-    <p>2 :  Transférez le fichier vers http://lorem.ovh/. </p>
+     <form action="/zerowing/telecharger">
+        <input type="submit" value="Télécharger le fichier de vérification" />
+    </form>
+    <p>2 :  Transférez le fichier vers {{url}}. </p>
     <p>3 :  Confirmez la réussite du transfert en accédant au site  dans votre navigateur. </p>
-    <p>4 :  Cliquez sur "Valider" ci-dessous.</p>
+    <p>4 :  Cliquez sur "Vérifier" ci-dessous.</p>
     <br></br>
-    <p>VALIDER</p>
+    <form action="/zerowing/verification">
+        <input name="url" value="{{url}}" type="hidden" />
+        <input type="submit" value="Vérifier" />
+    </form>
     <br></br>
     <p>Pour conserver votre statut de propriétaire confirmé, ne supprimez pas le fichier HTML, même une fois la validation effectuée.</p>
 

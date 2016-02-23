@@ -1,0 +1,33 @@
+AppBundle\Entity\Siteclient:
+    type: entity
+    table: Siteclient
+    indexes:
+        id:
+            columns:
+                - id
+    id:
+        url:
+            type: string
+            nullable: false
+            length: 500
+            fixed: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        validation:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: Validation
+    manyToOne:
+        id:
+            targetEntity: FosUser
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\Siteclient;
 
 class DefaultController extends Controller
 {
@@ -41,6 +42,17 @@ class DefaultController extends Controller
     public function zerowingAction(Request $request)
     {
         return $this->render('zerowing/index.html.twig', array());
+    }
+
+    /**
+     * @Route("/zerowing/ajouter")
+     */
+    public function zerowingAjouterAction(Request $request)
+    {
+        $url = $request->get("url");
+        return $this->render('zerowing/Process.html.twig', array(
+            'url' => $url
+        ));
     }
 
     /**
@@ -89,11 +101,21 @@ class DefaultController extends Controller
     public function zerowingVerificationAction(Request $request)
     {
         $url = $request->get("url");
-        //return $this->verifierCode($url);
+        //Verification et Enregistrement de l'url dans la base
 
         if  ((!$this->verifierCode($url)))
         {
-              return $this->redirect('/zerowing/procedure?url='. $url);
+            $em = $this->getDoctrine()->getManager();
+            $siteclient = new Siteclient();
+            $siteclient->setU($input['base_url']);
+            $property->setValidationUrl($validation_url);
+            $property->setAccount($account);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($property);
+            $em->flush();
+
+            return $this->redirect('/zerowing/procedure?url='. $url);
 
         } else {
           return $this->redirect('/zerowing/tests?url='. $url);

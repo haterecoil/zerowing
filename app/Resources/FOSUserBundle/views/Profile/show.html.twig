@@ -3,11 +3,11 @@
 {% block fos_user_content %}
     {% include "FOSUserBundle:Profile:show_content.html.twig" %}
 
-    <form action="/zerowing/verification" method="get">
+    <form action="/zerowing/ajouter" method="get">
         <p> Entre L'url du site à tester</p>
         <label for="url">URL: </label>
         <input id="url" name="url" type="text" />
-        <input type="submit" value="Vérifier" />
+        <input type="submit" value="Ajouter" />
     </form>
 
 {% endblock fos_user_content %}
