@@ -17,14 +17,18 @@ class SqlErrorRepository extends EntityRepository
      * @param int $id
      * @return SqlError
      */
+    //here we get the sql strings from the DB by his id
+    // if id not defined id = 1
     public function getSqlError($id = 1)
     {
+        //we find one by the id
         $sql_error = $this->findOneBy(
             array('id' => $id)
         );
 
+        // we check if the result is what we want
         dump($sql_error);
-
+        // we return an object
         return $sql_error;
     }
 
