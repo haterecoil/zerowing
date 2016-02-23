@@ -28,25 +28,11 @@ class XSSAttackController extends Controller
      */
     public function indexAction()
     {
-       /*$client = $this->get('guzzle.client');
-        $req = $client->createRequest(
-            'GET',
-            'http://127.0.0.1:8000/XSSAttack/new',
-            null,
-            [
-                'xss_attack' => 'test1'
-            ]
-        );
-        $response = $req->send();
-
-        dump($response);
-       die();*/
-
        $em = $this->getDoctrine()->getManager();
 
         $xSSAttacks = $em->getRepository('AppBundle:XSSAttack')->findAll();
         return $this->render('AppBundle::index.html.twig', array(
-            'xSSAttacks' => null,
+            'xSSAttacks' => $xSSAttacks,
         ));
     }
 
@@ -144,7 +130,7 @@ class XSSAttackController extends Controller
         $form = $this->createFormBuilder()
             ->add('url', TextType::class)
             ->add('method', TextType::class) //TODO DROPDOWN
-            ->add('name', TextType::class)
+            ->add('key', TextType::class)
             ->add('save', SubmitType::class, array('label' => 'Launch Attack'))
             ->getForm();
 
@@ -158,7 +144,7 @@ class XSSAttackController extends Controller
             $target = new SqlTarget();
             $target->setUrl($data['url']);
             $target->setMethod($data['method']);
-            $target->setParameters($data['name']);
+            $target->setParameters(array('key'=>$data['key']));
 
             /**
              * SQL pentesting service

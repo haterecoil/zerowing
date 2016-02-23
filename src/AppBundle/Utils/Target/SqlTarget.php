@@ -30,10 +30,11 @@ class SqlTarget implements TargetInterface
      *  "key"=>"default_value"
      *  note: defautl value can be empty.
      *
-     * example:
+     * example: http://lorem.ovh?user=adminpassword=
      * array(
      *  "user"     =>"admin"
      *  "password" => null
+     * "key"=>nomdelakey
      * )
      *
      * @var array

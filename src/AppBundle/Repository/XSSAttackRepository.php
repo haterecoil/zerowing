@@ -12,12 +12,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class XSSAttackRepository extends EntityRepository
 {
-    public function findAll()
-    {
-        return $this->getEntityManager()
-        ->createQuery(
-            'SELECT x FROM AppBundle:XSSAttack x'
-        )
-        ->getResult();
-    }
+
 }
