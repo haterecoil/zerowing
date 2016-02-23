@@ -29,7 +29,7 @@ class SqlErrorRepository extends EntityRepository
         );
 
         // we check if the result is what we want
-        dump($sql_error);
+        //dump($sql_error);
         // we return an object
         return $sql_error;
     }
