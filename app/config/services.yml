@@ -10,6 +10,9 @@ services:
     app.pentester.sql:
         class: AppBundle\Utils\Pentester\SqlPentester
         arguments: ["@guzzle.client"]
+    app.pentester.fuzz:
+        class: AppBundle\Utils\Pentester\FuzzPentester
+        arguments: ["@guzzle.client", "@doctrine.orm.entity_manager"]
     guzzle.client:
         class: %guzzle.client.class%
     guzzle.plugin.cookie:
