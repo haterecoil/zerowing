@@ -70,5 +70,10 @@ class Report
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->_type." : ". $this->_msg;
+    }
+
 
 }
