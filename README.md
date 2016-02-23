@@ -14,16 +14,16 @@ TODO LIST (ordered by priority) :
 - [ ] Detect 1 XSS
 - [ ] PHPCS 101
 - [ ] Retrieve SQL data
-- [ ] MOAR ?A Symfony project created on February 6, 2016, 2:12 pm.
+- [ ] MOAR ?
 
 TEAM :
 
-CABROL Margaux –
-CARON Morgan –
-LAWSON Clarisse –
-LE SAOUT Morgane –
-POLIN Ronan –
-TARRIERE Milena
+CARON Morgan – Lead Developper
+LAWSON Clarisse – Developper
+POLIN Ronan – Developper
+CABROL Margaux – intern
+LE SAOUT Morgane – intern
+TARRIERE Milena – intern
 
 ## Description
 
