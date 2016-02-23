@@ -106,18 +106,29 @@ class DefaultController extends Controller
         if  ((!$this->verifierCode($url)))
         {
             $em = $this->getDoctrine()->getManager();
-            $siteclient = new Siteclient();
-            $siteclient->setU($input['base_url']);
-            $property->setValidationUrl($validation_url);
-            $property->setAccount($account);
+            $user = $this->getUser();
+            $siteclient = new SiteCLient();
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($property);
+            $siteclient->setUrl($url);
+            $siteclient->setValidation(0);
+            $siteclient->setUser($user);
+
+            $em->persist($siteclient);
             $em->flush();
 
             return $this->redirect('/zerowing/procedure?url='. $url);
 
         } else {
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $siteclient = new SiteCLient();
+
+            $siteclient->setUrl($url);
+            $siteclient->setValidation(1);
+            $siteclient->setUser($user);
+
+            $em->persist($siteclient);
+            $em->flush();
           return $this->redirect('/zerowing/tests?url='. $url);
         }
     }

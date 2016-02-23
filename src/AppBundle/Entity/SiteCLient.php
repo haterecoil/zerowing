@@ -11,6 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
 class SiteCLient
 {
     /**
+     * @ORM\ManyToOne(targetEntity="user", inversedBy="urls")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    protected $user;
+    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -88,5 +93,28 @@ class SiteCLient
     public function getValidation()
     {
         return $this->validation;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\user $user
+     * @return SiteCLient
+     */
+    public function setUser(\AppBundle\Entity\user $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\user 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
