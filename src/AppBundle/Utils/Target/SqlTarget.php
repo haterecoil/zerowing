@@ -50,7 +50,7 @@ class SqlTarget implements TargetInterface
      * @param string $url
      * @param array  $params
      */
-    public function __construct($method, $url, $params)
+    public function __construct($method = "GET", $url = "", $params = array())
     {
         $this->setMethod($method);
         $this->setUrl($url);
