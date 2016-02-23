@@ -7,11 +7,11 @@
     {% if targetUrl %}
         <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
     {% endif %}
-    <form action="/zerowing/verification">
+    <form action="/zerowing/ajouter">
         <p> Entre L'url du site à tester</p>
         <label for="url">URL: </label>
         <input name="url" type="text" />
-        <input type="submit" value="Vérifier" />
+        <input type="submit" value="Ajouter" />
     </form>
 
 {% endblock fos_user_content %}
