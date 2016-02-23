@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Utils\Pentester\XssPentester;
+use AppBundle\Utils\Target\SqlTarget;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\XSSAttack;
@@ -11,6 +13,9 @@ use Misd\GuzzleBundle\MisdGuzzleBundle;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Utils\Pentester;
+use AppBundle\Utils\Reporter;
+use AppBundle\Utils\Target;
 
 /**
  * @Route("/XSSAttack")
@@ -23,21 +28,25 @@ class XSSAttackController extends Controller
      */
     public function indexAction()
     {
-        /**
-         * @var \Guzzle\Service\Client $client
-         */
-        $client = $this->get('guzzle.client');
-        $request = $client->get('http://lorem.ovh/');
-        $result = $request->send();
+       /*$client = $this->get('guzzle.client');
+        $req = $client->createRequest(
+            'GET',
+            'http://127.0.0.1:8000/XSSAttack/new',
+            null,
+            [
+                'xss_attack' => 'test1'
+            ]
+        );
+        $response = $req->send();
 
-        dump($result);
-        die();
+        dump($response);
+       die();*/
 
-        $em = $this->getDoctrine()->getManager();
+       $em = $this->getDoctrine()->getManager();
 
         $xSSAttacks = $em->getRepository('AppBundle:XSSAttack')->findAll();
         return $this->render('AppBundle::index.html.twig', array(
-            'xSSAttacks' => $xSSAttacks,
+            'xSSAttacks' => null,
         ));
     }
 
@@ -50,6 +59,8 @@ class XSSAttackController extends Controller
         $xSSAttack = new XSSAttack();
         $form = $this->createForm('AppBundle\Form\XSSAttackType', $xSSAttack);
         $form->handleRequest($request);
+        dump($form->isSubmitted());
+        dump($form->isValid());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -122,6 +133,51 @@ class XSSAttackController extends Controller
 
         return $this->redirectToRoute('xssattack_index');
     }
+
+    /**
+     * Launch a XSSAttack entity.
+     *@Route("/attack", name="xssattack_attack")
+     */
+    public function launchAttack(Request $request)
+    {
+
+        $form = $this->createFormBuilder()
+            ->add('url', TextType::class)
+            ->add('method', TextType::class) //TODO DROPDOWN
+            ->add('name', TextType::class)
+            ->add('save', SubmitType::class, array('label' => 'Launch Attack'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $data = $form->getData();
+
+            $target = new SqlTarget();
+            $target->setUrl($data['url']);
+            $target->setMethod($data['method']);
+            $target->setParameters($data['name']);
+
+            /**
+             * SQL pentesting service
+             * todo put in priv var ?
+             * @var $sqlPentester Pentester\SqlPentester
+             */
+            $xssPentester = $this->get('app.pentester.xss');
+            $xssPentester->test($target);
+
+
+            return $this->redirectToRoute('xssattack_index');
+        }
+
+        return $this->render('AppBundle::attack.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+
 
     /**
      * Creates a form to delete a XSSAttack entity.
