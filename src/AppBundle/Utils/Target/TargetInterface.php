@@ -20,6 +20,7 @@ namespace AppBundle\Utils\Target;
  *  - des paramètres
  *
  * Interface TargetInterface
+ *
  * @package AppBundle\Utils\TargetInterface
  */
 interface TargetInterface

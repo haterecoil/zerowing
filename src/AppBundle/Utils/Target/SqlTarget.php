@@ -48,9 +48,10 @@ class SqlTarget implements TargetInterface
      * SqlTarget constructor.
      * @param string $method
      * @param string $url
-     * @param array $params
+     * @param array  $params
      */
-    public function __construct($method, $url, $params){
+    public function __construct($method, $url, $params)
+    {
         $this->setMethod($method);
         $this->setUrl($url);
         $this->setParameters($params);
@@ -97,7 +98,8 @@ class SqlTarget implements TargetInterface
      * @param string $method
      * @return bool
      */
-    function setMethod($method){
+    function setMethod($method)
+    {
         $method = strtolower($method);
         $this->_method = $method;
     }
@@ -106,7 +108,8 @@ class SqlTarget implements TargetInterface
      * Return the HTTP Method/verb
      * @return string
      */
-    function getMethod(){
+    function getMethod()
+    {
         return $this->_method;
     }
 }
