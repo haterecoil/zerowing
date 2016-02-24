@@ -18,6 +18,10 @@
                 <td>{{ fuzzingUri.type }}</td>
             </tr>
             <tr>
+                <th>CSRF</th>
+                <td>{{ fuzzingUri.csrf }}</td>
+            </tr>
+            <tr>
                 <th>Http_target</th>
                 <td>{% if fuzzingUri.httptarget %}{{ fuzzingUri.httptarget|join(', ') }}{% endif %}</td>
             </tr>

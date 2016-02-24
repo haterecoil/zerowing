@@ -8,6 +8,7 @@
     {{ form_row(edit_form.uri) }}
     {{ form_row(edit_form.type) }}
     {{ form_row(edit_form.http_method) }}
+    {{ form_row(edit_form.csrf) }}
 
     <div id="http_params" data-prototype="{{ explode.widget_prototype(edit_form.http_target, 'Remove tag')|escape
     }}">

@@ -28,7 +28,7 @@ class FuzzingUriController extends Controller
 
         $fuzzingUris = $em->getRepository('AppBundle:FuzzingUri')->findAll();
 
-        return $this->render('fuzzinguri/index.html.twig', array(
+        return $this->render('@App/Forms/fuzzinguri/index.html.twig', array(
             'fuzzingUris' => $fuzzingUris,
         ));
     }
@@ -70,7 +70,7 @@ class FuzzingUriController extends Controller
     {
         $deleteForm = $this->createDeleteForm($fuzzingUri);
 
-        return $this->render('fuzzinguri/show.html.twig', array(
+        return $this->render('@App/Forms/fuzzinguri/show.html.twig', array(
             'fuzzingUri' => $fuzzingUri,
             'delete_form' => $deleteForm->createView(),
         ));

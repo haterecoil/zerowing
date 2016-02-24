@@ -48,6 +48,12 @@ class FuzzingUri
      */
     private $http_target;
 
+    /**
+     * @var string
+     * @ORM\Column(name="csrf", type="string", length=64)
+     */
+    private $csrf;
+
 
     /**
      * Get id
@@ -149,5 +155,28 @@ class FuzzingUri
     public function getHttpMethod()
     {
         return $this->http_method;
+    }
+
+    /**
+     * Set csrf
+     *
+     * @param string $csrf
+     * @return FuzzingUri
+     */
+    public function setCsrf($csrf)
+    {
+        $this->csrf = $csrf;
+
+        return $this;
+    }
+
+    /**
+     * Get csrf
+     *
+     * @return string 
+     */
+    public function getCsrf()
+    {
+        return $this->csrf;
     }
 }
