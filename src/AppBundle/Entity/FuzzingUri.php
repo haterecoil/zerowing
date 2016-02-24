@@ -35,11 +35,24 @@ class FuzzingUri
      */
     private $type;
 
+    /**
+     * @var string
+     * @ORM\Column(name="http_method", type="string", length=7)
+     */
+    private $http_method;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="http_target", type="array")
+     */
+    private $http_target;
+
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -90,5 +103,51 @@ class FuzzingUri
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set http_target
+     *
+     * @param array $httpTarget
+     * @return FuzzingUri
+     */
+    public function setHttpTarget($httpTarget)
+    {
+        $this->http_target = $httpTarget;
+
+        return $this;
+    }
+
+    /**
+     * Get http_target
+     *
+     * @return array 
+     */
+    public function getHttpTarget()
+    {
+        return $this->http_target;
+    }
+
+    /**
+     * Set http_method
+     *
+     * @param string $httpMethod
+     * @return FuzzingUri
+     */
+    public function setHttpMethod($httpMethod)
+    {
+        $this->http_method = $httpMethod;
+
+        return $this;
+    }
+
+    /**
+     * Get http_method
+     *
+     * @return string 
+     */
+    public function getHttpMethod()
+    {
+        return $this->http_method;
     }
 }
