@@ -6,8 +6,8 @@ zerowing
     
 TODO LIST (ordered by priority) :
 
-- [x] Add FOS User Bundle
-- [x] FOS UB Security filter
+- [ ] Add FOS User Bundle
+- [ ] FOS UB Security filter
 - [x] Provoke several SQL Errors
 - [x] Detect several SQL Errors
 - [x] Provoke 1 XSS
