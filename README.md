@@ -18,12 +18,12 @@ TODO LIST (ordered by priority) :
 
 TEAM :
 
-- CABROL Margaux – Lead Developper
-- CARON Morgan – Developper
+- CARON Morgan – Lead Developper
+- POLIN Ronan  – Developper
 - LAWSON Clarisse – Developper
-- LE SAOUT Morgane – intern
-- POLIN Ronan – intern 
 - TARRIERE Milena - intern
+- LE SAOUT Morgane – intern 
+- CABROL Margaux – intern
 
 ## Description
 
