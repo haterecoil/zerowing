@@ -29,21 +29,6 @@ class SqlError
     private $value;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="error_response", type="string", length=200)
-     */
-    private $errorResponse;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="new_request", type="integer")
-     */
-    private $newRequest;
-
-
-    /**
      * Get id
      *
      * @return integer 
