@@ -18,6 +18,8 @@ class AuthentificationListener
         "/zerowing/download"
     );
 
+    private static $adminUrls = array();
+
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
@@ -42,6 +44,8 @@ class AuthentificationListener
             return;
         }
 
+
+
         $content = $request->getContent();
         $input = json_decode($content, true);
 
@@ -53,6 +57,9 @@ class AuthentificationListener
         if ($account == null) {
             throw new ApiAuthentificationFailureException("Ce compte n'existe pas");
         } else {
+            if (in_array($url, self::$adminUrls) && $account->getUsername() != "admin") {
+                throw new ApiAuthentificationFailureException("Ce compte n'est pas administrateur");
+            }
             // mettre ces variables déjà calculées à disposition de tous les controlleurs
             $request->apiAccount = $account;
             $request->decodedBody = $input;
