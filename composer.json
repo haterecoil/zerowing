@@ -23,6 +23,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "misd/guzzle-bundle": "^1.1",
         "fabpot/goutte": "^1.0"
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "twbs/bootstrap": "^3.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
