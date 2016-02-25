@@ -21,7 +21,7 @@ class User extends BaseUser
      */
     protected $id;
     /**
-     * @ORM\OneToMany(targetEntity="SiteCLient", mappedBy="User")
+     * @ORM\OneToMany(targetEntity="SiteCLient", mappedBy="user")
      */
     protected $urls;
 

@@ -37,7 +37,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/zerowing")
+     * @Route("/zerowing/")
      */
     public function zerowingAction(Request $request)
     {
@@ -101,38 +101,62 @@ class DefaultController extends Controller
     public function zerowingVerificationAction(Request $request)
     {
         $url = $request->get("url");
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $siteclient = new SiteCLient();
         //Verification et Enregistrement de l'url dans la base
 
         if  ((!$this->verifierCode($url)))
         {
-            $em = $this->getDoctrine()->getManager();
-            $user = $this->getUser();
-            $siteclient = new SiteCLient();
-
             $siteclient->setUrl($url);
             $siteclient->setValidation(0);
             $siteclient->setUser($user);
+            $code = "";
+            try {
+                $em->persist($siteclient);
+                $em->flush();
+            } catch (\Exception $e) {
+                // montrer un message à l'utilisateur pour dire que le site n'existe pas
+                return $this->redirect('/zerowing/procedure?url='. $url);
 
-            $em->persist($siteclient);
-            $em->flush();
-
-            return $this->redirect('/zerowing/procedure?url='. $url);
-
+            }
         } else {
-            $em = $this->getDoctrine()->getManager();
-            $user = $this->getUser();
-            $siteclient = new SiteCLient();
-
             $siteclient->setUrl($url);
             $siteclient->setValidation(1);
             $siteclient->setUser($user);
 
-            $em->persist($siteclient);
-            $em->flush();
-          return $this->redirect('/zerowing/tests?url='. $url);
+            try {
+                $em->persist($siteclient);
+                $em->flush();
+            } catch (\Exception $e) {
+                return $this->redirect('/zerowing/tests?url='. $url);
+            }
         }
     }
+    /**
+     * @Route("/zerowing/listetests")
+     */
+    public function zerowinglistetestsAction(Request $request)
+    {
+        $user = $this->getUser();
+        $urls= $user->getUrls();
 
+        $validationMapping = array(
+            0 => "Non validé",
+            1 => "Validé"
+        );
+
+        $dataMapper = function ($item) use ($validationMapping) {
+            return array(
+                "url" => $item->getUrl(),
+                "validation" => $validationMapping[$item->getValidation()]
+            );
+        };
+
+        $data = array_map($dataMapper, $urls->toArray());
+
+        return new Response(json_encode($data));
+    }
 
     /**
      * @Route("/", name="homepage")

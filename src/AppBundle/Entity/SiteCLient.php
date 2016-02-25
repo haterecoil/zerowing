@@ -2,11 +2,14 @@
 
 namespace AppBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="site_c_lient")
+ *  @UniqueEntity("url")
  */
 class SiteCLient
 {
@@ -28,6 +31,7 @@ class SiteCLient
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255, unique=true)
+     * @Assert\Url()
      */
     private $url;
 

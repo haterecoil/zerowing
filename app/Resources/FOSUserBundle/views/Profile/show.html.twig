@@ -3,6 +3,14 @@
 {% block fos_user_content %}
     {% include "FOSUserBundle:Profile:show_content.html.twig" %}
 
+    {% if urls|length > 0 %}
+        <ul>
+        {% for item in urls %}
+            <li>{{ item.url }} => {{ item.validation }} <a href="{{ path('app_default_zerowingverification') }}?url={{ item.url }}"> Vérifier </a></li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
     <form action="/zerowing/ajouter" method="get">
         <p> Entre L'url du site à tester</p>
         <label for="url">URL: </label>
