@@ -23,17 +23,26 @@ class EasyCredentials
     );
 
     private $username_files = array(
-        "default" => "credentials/default-users.txt",
+        "default" => "default-users.txt",
     );
 
 
-    public function get100Passwords($page = 0, $shortname = "500worst")
+    public function getPasswords($nb_items = 20, $page = 0,$shortname = "500worst")
     {
 
         $filename = $this->password_files[$shortname];
         $filepath = $this->CREDENTIALS_PATH.$filename;
 
-        return $this->get($page, 100, $filepath);
+        return $this->get($page, $nb_items, $filepath);
+    }
+
+
+    public function getUsernames($nb_items = 20, $page = 0, $shortname = "default" )
+    {
+        $filename = $this->username_files[$shortname];
+        $filepath = $this->CREDENTIALS_PATH.$filename;
+
+        return $this->get($page, $nb_items, $filepath);
     }
 
     private function get($page = 0, $maxitems = 100, $filepath)
@@ -49,7 +58,7 @@ class EasyCredentials
             fseek($handle, $offset);
 
             while (($line = fgets($handle, 4096)) !== false && $offset < $limit) {
-                $buffer[] = $line;
+                $buffer[] = trim($line);
                 $offset++;
             }
             if (!feof($handle)) {
@@ -61,11 +70,5 @@ class EasyCredentials
         return $buffer;
     }
 
-    public function get100Usernames($page = 0, $shortname = "default")
-    {
-        $filename = $this->username_files[$shortname];
-        $filepath = $this->CREDENTIALS_PATH.$filename;
 
-        return $this->get($page, 100, $filepath);
-    }
 }
