@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Utils\Target\FuzzTarget;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -54,11 +55,17 @@ class FuzzingUri
      */
     private $csrf;
 
+    /**
+     * @var string
+     * @ORM\Column(name="match_success", type="string", length=255)
+     */
+    private $match_success;
+
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -66,26 +73,13 @@ class FuzzingUri
     }
 
     /**
-     * Set uri
+     * Get type
      *
-     * @param string $uri
-     * @return FuzzingUri
+     * @return string
      */
-    public function setUri($uri)
+    public function getType()
     {
-        $this->uri = $uri;
-
-        return $this;
-    }
-
-    /**
-     * Get uri
-     *
-     * @return string 
-     */
-    public function getUri()
-    {
-        return $this->uri;
+        return $this->type;
     }
 
     /**
@@ -102,13 +96,54 @@ class FuzzingUri
     }
 
     /**
-     * Get type
+     * Get csrf hidden input's name
      *
-     * @return string 
+     * @return string
      */
-    public function getType()
+    public function getCsrf()
     {
-        return $this->type;
+        return $this->csrf;
+    }
+
+    /**
+     * Set csrf
+     *
+     * @param string $csrf
+     * @return FuzzingUri
+     */
+    public function setCsrf($csrf)
+    {
+        $this->csrf = $csrf;
+
+        return $this;
+    }
+
+    public function getFuzzTarget()
+    {
+        $http_params = array();
+        foreach ($this->getHttpTarget() as $one_http_target) {
+            $one_http_target_exploded = explode(':', $one_http_target);
+            if (!isset($one_http_target_exploded[1])) {
+                $one_http_target_exploded[1] = null;
+            }
+            $http_params[$one_http_target_exploded[0]] = $one_http_target_exploded[1];
+        }
+
+        return new FuzzTarget(
+            $this->getHttpMethod(),
+            $this->getUri(),
+            $http_params
+        );
+    }
+
+    /**
+     * Get http_target
+     *
+     * @return array
+     */
+    public function getHttpTarget()
+    {
+        return $this->http_target;
     }
 
     /**
@@ -125,13 +160,13 @@ class FuzzingUri
     }
 
     /**
-     * Get http_target
+     * Get http_method
      *
-     * @return array 
+     * @return string
      */
-    public function getHttpTarget()
+    public function getHttpMethod()
     {
-        return $this->http_target;
+        return $this->http_method;
     }
 
     /**
@@ -148,35 +183,49 @@ class FuzzingUri
     }
 
     /**
-     * Get http_method
+     * Get uri
      *
-     * @return string 
+     * @return string
      */
-    public function getHttpMethod()
+    public function getUri()
     {
-        return $this->http_method;
+        return $this->uri;
     }
 
     /**
-     * Set csrf
+     * Set uri
      *
-     * @param string $csrf
+     * @param string $uri
      * @return FuzzingUri
      */
-    public function setCsrf($csrf)
+    public function setUri($uri)
     {
-        $this->csrf = $csrf;
+        $this->uri = $uri;
+
+        return $this;
+    }
+
+
+    /**
+     * Set match_success
+     *
+     * @param string $matchSuccess
+     * @return FuzzingUri
+     */
+    public function setMatchSuccess($matchSuccess)
+    {
+        $this->match_success = $matchSuccess;
 
         return $this;
     }
 
     /**
-     * Get csrf
+     * Get match_success
      *
      * @return string 
      */
-    public function getCsrf()
+    public function getMatchSuccess()
     {
-        return $this->csrf;
+        return $this->match_success;
     }
 }

@@ -45,6 +45,12 @@ class FuzzTarget implements TargetInterface
     private $_method;
 
     /**
+     * Csrf's hidden input name. If not null then there is a csrf to grab
+     * @var string
+     */
+    private $csrf;
+
+    /**
      * FuzzTarget constructor.
      * @param string $method
      * @param string $url

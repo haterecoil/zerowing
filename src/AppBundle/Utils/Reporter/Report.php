@@ -77,7 +77,7 @@ class Report
 
     public function __toString()
     {
-        $success = $this->_success ? "success" : "error";
+        $success = $this->_success ? "success" : "fail";
         return $this->_type." (".$success. ") : " .$this->_msg;
     }
 
