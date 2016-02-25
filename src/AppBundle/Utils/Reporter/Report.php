@@ -91,10 +91,13 @@ class Report
 
     /**
      * @param boolean $success
+     * @return $this
      */
     public function setSuccess($success)
     {
         $this->_success = $success;
+
+        return $this;
     }
 
 

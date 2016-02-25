@@ -21,6 +21,7 @@
                 <td>{{ fuzzingUri.uri }}</td>
                 <td>{{ fuzzingUri.type }}</td>
                 <td>{{ fuzzingUri.csrf }}</td>
+                <td>{{ fuzzingUri.match_success }}</td>
                 <td>{% if fuzzingUri.httptarget %}{{ fuzzingUri.httptarget|join(', ') }}{% endif %}</td>
                 <td>
                     <ul>

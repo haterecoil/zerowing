@@ -49,6 +49,10 @@ class FuzzingUriType extends AbstractType
                 'required' => false,
                 'attr' => array('placeholder' => 'If CSRF token needed, please add its field\'s name')
             ))
+            ->add('match_success', TextType::class, array(
+                'required' => false,
+                'attr' => array('placeholder' => 'Type a regex which will check if login succeeded')
+            ))
             ->add('submit', SubmitType::class);
     }
 
