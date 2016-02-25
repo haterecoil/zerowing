@@ -20,13 +20,14 @@ namespace AppBundle\Utils\Target;
  *  - des paramètres
  *
  * Interface TargetInterface
+ *
  * @package AppBundle\Utils\TargetInterface
  */
 interface TargetInterface
 {
     /**
      * Set an url, can be a URL or an IP address
-     * @return void
+     * @param $url
      */
     function setUrl($url);
 
@@ -41,7 +42,7 @@ interface TargetInterface
      * In case of SQL Injection it would be URL parameters
      * In case of Port Scanning it would be a range of ports
      * In case of bruteforce it could be URL parameters or type of bruteforce
-     * @return void
+     * @param array $params
      */
     function setParameters($params);
 
