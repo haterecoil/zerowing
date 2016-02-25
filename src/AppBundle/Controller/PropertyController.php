@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Account;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,27 +16,32 @@ class PropertyController extends Controller
     static $verificationFile = "code_zerowing_dfgsdgdfgdfgsfgdfgdg.html";
     static $verificationCode = "dsfqsdfsqfdsf";
 
+    private function verifierCode($site) {
+
+        $codeUrl = strtolower($site) . "/" . self::$verificationFile;
+        if (substr($codeUrl, 0, 7) !== "http://" || substr($codeUrl, 0, 8) !== "https://") {
+            $codeUrl = "http://" . $codeUrl;
+        }
+
+        $code = "";
+        try {
+            $code = file_get_contents($codeUrl);
+        } catch (\Exception $e) {
+            // ignorer, la vérification va échouer
+        }
+
+
+        return $code == self::$verificationCode;
+    }
+
     /**
-     * @Route("/zerowing/property/new")
+     * @Route("/zerowing/property")
+     * @Method({"POST"})
      */
     public function PropertyCreationAction(Request $request)
     {
-        $content = $request->getContent();
-        $input = json_decode($content, true);
-
-        $em = $this->getDoctrine()->getManager();
-
-        // check authentification
-        $account = $em->getRepository('AppBundle:Account')->getAccount(
-            $input['username'],
-            $input['password']);
-
-        if ($account == null) {
-            return new JsonResponse(array(
-                'success' => false,
-                'message' => 'Account not found'
-            ));
-        }
+        $input = $request->decodedBody;
+        $account = $request->apiAccount;
 
         $validation_url = $input['base_url'] . '/' . self::$verificationFile . '.html';
 
@@ -55,32 +61,39 @@ class PropertyController extends Controller
     }
 
     /**
-     * @Route("/zerowing/property/download")
+     * @Route("/zerowing/download")
+     * @Method({"GET"})
      */
     public function DownloadAction()
     {
-
-        $response = new Response(self::$verficationCode);
+        $response = new Response(self::$verificationCode);
 
         $response->headers->set('Content-Disposition', 'attachment; filename="' . self::$verificationFile . '"');
 
         return $response;
-
     }
 
-    public function PropertyVerificationAction()
+
+    /**
+     * @Route("/zerowing/property/verification")
+     * @Method({"POST"})
+     */
+    public function PropertyVerificationAction(Request $request)
     {
+        $input = $request->decodedBody;
+        $account = $request->apiAccount;
 
-        $response = new Response();
+        $propertyId = $input ['id'];
+        $property = $this->getDoctrine()
+            ->getRepository('AppBundle:Property')
+            ->find($propertyId);
+        $url = $property->getValidationUrl();
 
-        if ($this->verifierCode($url)) {
-            return $response->getStatus(true);
-        } else {
-            return $response->getStatus(false);
-        }
+        $result = $this->verifierCode($url);
 
+        return new JsonResponse(array(
+            'success' => true,
+            'id' => $result
+        ));
     }
-
-
-
 }
