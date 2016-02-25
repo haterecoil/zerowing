@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>FuzzingUri list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Uri</th>
+                <th>Type</th>
+                <th>Http_target</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fuzzingUri in fuzzingUris %}
+            <tr>
+                <td><a href="{{ path('fuzzinguri_show', { 'id': fuzzingUri.id }) }}">{{ fuzzingUri.id }}</a></td>
+                <td>{{ fuzzingUri.uri }}</td>
+                <td>{{ fuzzingUri.type }}</td>
+                <td>{% if fuzzingUri.httptarget %}{{ fuzzingUri.httptarget|join(', ') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('fuzzinguri_show', { 'id': fuzzingUri.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('fuzzinguri_edit', { 'id': fuzzingUri.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('fuzzinguri_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}
