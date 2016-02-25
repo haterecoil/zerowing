@@ -38,6 +38,11 @@ class Report
     private $_msg;
 
     /**
+     * @var bool
+     */
+    private $_success;
+
+    /**
      * Setter
      * @param string $type set type of the message
      * @return Report
@@ -66,6 +71,31 @@ class Report
     public function setMsg($msg)
     {
         $this->_msg = $msg;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        $success = $this->_success ? "success" : "fail";
+        return $this->_type." (".$success. ") : " .$this->_msg;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSuccess()
+    {
+        return $this->_success;
+    }
+
+    /**
+     * @param boolean $success
+     * @return $this
+     */
+    public function setSuccess($success)
+    {
+        $this->_success = $success;
 
         return $this;
     }

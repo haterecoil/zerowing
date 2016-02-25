@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>FuzzingUri</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ fuzzingUri.id }}</td>
+            </tr>
+            <tr>
+                <th>Uri</th>
+                <td>{{ fuzzingUri.uri }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ fuzzingUri.type }}</td>
+            </tr>
+            <tr>
+                <th>Http_target</th>
+                <td>{% if fuzzingUri.httptarget %}{{ fuzzingUri.httptarget|join(', ') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('fuzzinguri_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('fuzzinguri_edit', { 'id': fuzzingUri.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

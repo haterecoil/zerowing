@@ -48,13 +48,14 @@ class Reporter
 
     /**
      * Log a message
+     * @param bool $success
      * @param string $msg A message to you ho... :)
-     * @return void
      */
-    public function report($msg)
+    public function report($success, $msg)
     {
         $report = new Report();
         $report->setType($this->_type)
+            ->setSuccess($success)
             ->setMsg($msg);
 
         $this->_reports[] = $report;

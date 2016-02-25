@@ -22,11 +22,13 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "misd/guzzle-bundle": "^1.1",
-        "phpunit/phpunit": "^4.8"
+        "fabpot/goutte": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
-        "symfony/phpunit-bridge": "~2.7"
+        "symfony/phpunit-bridge": "~2.7",
+        "phpunit/phpunit": "^4.8",
+        "phpdocumentor/phpdocumentor": "2.*"
     },
     "scripts": {
         "post-install-cmd": [

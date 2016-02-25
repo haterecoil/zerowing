@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% import "@App/Forms/prototype-macro.html.twig" as explode %}
+{% block body %}
+    <h1>FuzzingUri edit</h1>
+
+    {{ form_start(edit_form) }}
+
+    {{ form_row(edit_form.uri) }}
+    {{ form_row(edit_form.type) }}
+    {{ form_row(edit_form.http_method) }}
+    {{ form_row(edit_form.csrf) }}
+    {{ form_row(edit_form.match_success) }}
+
+    <div id="http_params" data-prototype="{{ explode.widget_prototype(edit_form.http_target, 'Remove tag')|escape
+    }}">
+        {% for widget in edit_form.http_target.children %}
+            {{ explode.widget_prototype(widget, 'Remove tag') }}
+        {% endfor %}
+    </div>
+
+    <a class="btn-add" data-target="http_params">Add tag</a>
+
+
+    <script>
+        /*Important : keep this script synced with
+        * the code in the "new" page !*/
+
+        var httpParamsCount = {{ edit_form.http_target|length }};
+        var httpParam = document.getElementById('http_params');
+        var httpParamId = new RegExp('{{ edit_form.http_target.vars.prototype.vars.name}}', 'g');
+
+        var model = httpParam.dataset.prototype;
+        //model = model.replace('__name__label__', 'Parameter name');
+
+        var btnsAdd = document.querySelectorAll('.btn-add');
+        var btnsRemove = document.querySelectorAll('.btn-remove');
+
+        for (var i = 0; i < btnsAdd.length; i++){
+            btnsAdd[i].addEventListener('click', appendRow);
+        }
+        for (i = 0; i < btnsRemove.length; i++){
+            btnsRemove[i].addEventListener('click', removeRow);
+        }
+
+        function appendRow() {
+            var newRow = document.createElement('div');
+            httpParamsCount++;
+            newRow.innerHTML = model.replace(httpParamId, httpParamsCount);
+            httpParam.appendChild(newRow);
+
+            return false;
+        }
+
+        function removeRow(e){
+            var name = e.target.dataset.related;
+            var el = document.querySelector('*[data-content="'+name+'"]');
+            el.parentNode.removeChild(el);
+
+            httpParamsCount--;
+
+            return false;
+        }
+    </script>
+
+    <br/>
+
+    {{ form_row(edit_form.submit) }}
+
+
+    {{ form_end(edit_form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('fuzzinguri_index') }}">Back to the list</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
