@@ -7,3 +7,27 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.pentester.sql:
+        class: AppBundle\Utils\Pentester\SqlPentester
+        arguments: ["@guzzle.client"]
+    app.pentester.fuzz:
+        class: AppBundle\Utils\Pentester\FuzzPentester
+        arguments: ["@guzzle.client", "@doctrine.orm.entity_manager", "@app.bruteforcer.easypasswords"]
+    app.bruteforcer.easypasswords:
+        class: AppBundle\Utils\Bruteforcer\EasyCredentials
+    guzzle.client:
+        class: %guzzle.client.class%
+    guzzle.plugin.cookie:
+        class: %guzzle.plugin.cookie.class%
+        calls:
+            - [addSubscriber, ['@guzzle.client']]
+    app.authentification_listener:
+        class: AppBundle\EventListener\AuthentificationListener
+        arguments:
+            entityManager: "@doctrine.orm.entity_manager"
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+    app.authentification_exception_listener:
+        class: AppBundle\EventListener\ApiAuthentificationFailureExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
