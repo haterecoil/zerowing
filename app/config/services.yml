@@ -12,7 +12,9 @@ services:
         arguments: ["@guzzle.client"]
     app.pentester.fuzz:
         class: AppBundle\Utils\Pentester\FuzzPentester
-        arguments: ["@guzzle.client", "@doctrine.orm.entity_manager"]
+        arguments: ["@guzzle.client", "@doctrine.orm.entity_manager", "@app.bruteforcer.easypasswords"]
+    app.bruteforcer.easypasswords:
+        class: AppBundle\Utils\Bruteforcer\EasyCredentials
     guzzle.client:
         class: %guzzle.client.class%
     guzzle.plugin.cookie:
