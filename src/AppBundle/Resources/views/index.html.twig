@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>XSSAttack list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Message</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for xSSAttack in xSSAttacks %}
+            <tr>
+                <td><a href="{{ path('xssattack_show', { 'id': xSSAttack.id }) }}">{{ xSSAttack.id }}</a></td>
+                <td>{{ xSSAttack.message }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('xssattack_show', { 'id': xSSAttack.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('xssattack_edit', { 'id': xSSAttack.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('xssattack_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}
