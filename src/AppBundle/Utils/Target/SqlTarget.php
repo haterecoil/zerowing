@@ -20,26 +20,42 @@ class SqlTarget implements TargetInterface
 
     /**
      * The URL tested. Without parameters.
-     *
      * @var string
      */
     private $_url;
 
     /**
      * Stores Parameters as
-     *  "key"=>"default_value"
-     *  note: defautl value can be empty.
-     *
+     *      "key"=>"default_value"
+     * note: default value can be empty.
      * example:
-     * array(
-     *  "user"     =>"admin"
-     *  "password" => null
-     * )
+     *  array(
+     *      "user"     =>"admin"
+     *      "password" => null
+     *  )
      *
      * @var array
      */
     private $_request_parameters;
+
+    /**
+     * HTTP Verb (or method) GET/POST/PUT/...
+     * @var string
+     */
     private $_method;
+
+    /**
+     * SqlTarget constructor.
+     * @param string $method
+     * @param string $url
+     * @param array  $params
+     */
+    public function __construct($method = "GET", $url = "", $params = array())
+    {
+        $this->setMethod($method);
+        $this->setUrl($url);
+        $this->setParameters($params);
+    }
 
     /**
      * @inheritdoc
@@ -82,7 +98,8 @@ class SqlTarget implements TargetInterface
      * @param string $method
      * @return bool
      */
-    function setMethod($method){
+    function setMethod($method)
+    {
         $method = strtolower($method);
         $this->_method = $method;
     }
@@ -91,7 +108,8 @@ class SqlTarget implements TargetInterface
      * Return the HTTP Method/verb
      * @return string
      */
-    function getMethod(){
+    function getMethod()
+    {
         return $this->_method;
     }
 }
