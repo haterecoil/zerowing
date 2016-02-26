@@ -1,0 +1,170 @@
+{
+	"id": "d6406c83-4137-9313-961b-06d967bcc578",
+	"name": "zerowing",
+	"description": "",
+	"order": [
+		"347e86dc-28f9-fbae-d8dc-06f38faa41c3",
+		"cfdfe7bf-926f-a573-034f-07725fe57472",
+		"6ba811d5-2df2-2ee4-c1ce-276a4f42a534",
+		"a81c4622-25a9-db20-b553-2657ac77e6e0"
+	],
+	"folders": [],
+	"timestamp": 1456454670852,
+	"owner": "",
+	"remoteLink": "",
+	"public": false,
+	"requests": [
+		{
+			"id": "347e86dc-28f9-fbae-d8dc-06f38faa41c3",
+			"headers": "Content-Type: application/json\n",
+			"url": "localhost:8000/api/fuzzs",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1456476466745,
+			"name": "postFuzzinguri",
+			"description": "Post a new fuzzing uri without csrf",
+			"collectionId": "d6406c83-4137-9313-961b-06d967bcc578",
+			"responses": [],
+			"rawModeData": "{\n    \"fuzzing_uri\":{\n        \"uri\":\"/pma\",\n        \"type\":\"phpmyadmin\",\n        \"http_method\": \"GET\",\n        \"http_target\":[\n            \"user\",\n            \"password:root\"\n            ],\n            \n        \"match_success\": \"/General settings/\"\n            \n        \n    }\n}"
+		},
+		{
+			"id": "6ba811d5-2df2-2ee4-c1ce-276a4f42a534",
+			"headers": "",
+			"url": "localhost:8000/api/fuzzs/1",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "user_token",
+					"value": "{{user.token}}",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Login",
+					"value": "Login",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1456476474346,
+			"name": "getOneFuzzinguri",
+			"description": "",
+			"collectionId": "d6406c83-4137-9313-961b-06d967bcc578",
+			"responses": []
+		},
+		{
+			"id": "a81c4622-25a9-db20-b553-2657ac77e6e0",
+			"headers": "",
+			"url": "localhost:8000/api/pentest/fuzz?url=http://localhost",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "user_token",
+					"value": "{{user.token}}",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Login",
+					"value": "Login",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1456476478115,
+			"name": "pentestFuzzPhpmyadmin",
+			"description": "URL discovery (fuzzing) and bruteforce on common combos passwords/usernames",
+			"collectionId": "d6406c83-4137-9313-961b-06d967bcc578",
+			"responses": []
+		},
+		{
+			"id": "cfdfe7bf-926f-a573-034f-07725fe57472",
+			"headers": "",
+			"url": "localhost:8000/api/fuzzs/index",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "user_token",
+					"value": "{{user.token}}",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Login",
+					"value": "Login",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1456476470450,
+			"name": "listFuzzinguris",
+			"description": "List all fuzzing uris",
+			"collectionId": "d6406c83-4137-9313-961b-06d967bcc578",
+			"responses": []
+		}
+	]
+}

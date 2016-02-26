@@ -22,6 +22,8 @@ class FuzzingUri
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Exclude
      */
     private $id;
 
@@ -32,7 +34,6 @@ class FuzzingUri
      * @Assert\NotBlank()
      * @Assert\NotNull()
      *
-     * @Exclude
      */
     private $uri;
 
@@ -86,8 +87,14 @@ class FuzzingUri
      * @param string $csrf
      * @param string $match_success
      */
-    public function __construct($uri = '', $type = '', $http_method = '', $http_target = array(), $match_success = '', $csrf = '' )
-    {
+    public function __construct(
+        $uri = '',
+        $type = '',
+        $http_method = '',
+        $http_target = array(),
+        $match_success = '',
+        $csrf = ''
+    ) {
         $this->uri = $uri;
         $this->type = $type;
         $this->http_method = $http_method;
@@ -240,6 +247,15 @@ class FuzzingUri
         return $this;
     }
 
+    /**
+     * Get match_success
+     *
+     * @return string
+     */
+    public function getMatchSuccess()
+    {
+        return $this->match_success;
+    }
 
     /**
      * Set match_success
@@ -252,15 +268,5 @@ class FuzzingUri
         $this->match_success = $matchSuccess;
 
         return $this;
-    }
-
-    /**
-     * Get match_success
-     *
-     * @return string 
-     */
-    public function getMatchSuccess()
-    {
-        return $this->match_success;
     }
 }

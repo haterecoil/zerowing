@@ -3,10 +3,9 @@
 
 namespace AppBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\SiteCLient;
+use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * @ORM\Entity
@@ -31,11 +30,6 @@ class User extends BaseUser
         $this->urls = new ArrayCollection();
         // your own logic
     }
-
-
-
-
-
 
 
     /**
@@ -64,7 +58,7 @@ class User extends BaseUser
     /**
      * Get urls
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUrls()
     {

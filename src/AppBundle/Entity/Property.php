@@ -66,11 +66,21 @@ class Property
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get baseUrl
+     *
+     * @return string
+     */
+    public function getBaseUrl()
+    {
+        return $this->baseUrl;
     }
 
     /**
@@ -87,13 +97,13 @@ class Property
     }
 
     /**
-     * Get baseUrl
+     * Get validationUrl
      *
      * @return string
      */
-    public function getBaseUrl()
+    public function getValidationUrl()
     {
-        return $this->baseUrl;
+        return $this->validationUrl;
     }
 
     /**
@@ -110,13 +120,13 @@ class Property
     }
 
     /**
-     * Get validationUrl
+     * Get account
      *
-     * @return string
+     * @return \AppBundle\Entity\Account
      */
-    public function getValidationUrl()
+    public function getAccount()
     {
-        return $this->validationUrl;
+        return $this->account;
     }
 
     /**
@@ -130,15 +140,5 @@ class Property
         $this->account = $account;
 
         return $this;
-    }
-
-    /**
-     * Get account
-     *
-     * @return \AppBundle\Entity\Account
-     */
-    public function getAccount()
-    {
-        return $this->account;
     }
 }

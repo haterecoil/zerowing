@@ -2,14 +2,14 @@
 
 namespace AppBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="site_c_lient")
- *  @UniqueEntity("url")
+ * @UniqueEntity("url")
  */
 class SiteCLient
 {
@@ -46,11 +46,21 @@ class SiteCLient
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
     }
 
     /**
@@ -67,13 +77,13 @@ class SiteCLient
     }
 
     /**
-     * Get url
+     * Get validation
      *
-     * @return string 
+     * @return integer
      */
-    public function getUrl()
+    public function getValidation()
     {
-        return $this->url;
+        return $this->validation;
     }
 
     /**
@@ -90,13 +100,13 @@ class SiteCLient
     }
 
     /**
-     * Get validation
+     * Get user
      *
-     * @return integer 
+     * @return \AppBundle\Entity\user
      */
-    public function getValidation()
+    public function getUser()
     {
-        return $this->validation;
+        return $this->user;
     }
 
     /**
@@ -110,15 +120,5 @@ class SiteCLient
         $this->user = $user;
 
         return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \AppBundle\Entity\user 
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
 }

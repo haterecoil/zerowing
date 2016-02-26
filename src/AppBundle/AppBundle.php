@@ -14,7 +14,9 @@
 
 namespace AppBundle;
 
+use AppBundle\Utils\Security\WsseFactory;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Class AppBundle
@@ -26,6 +28,14 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class AppBundle extends Bundle
 {
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        //$extension = $container->getExtension('security');
+        //$extension->addSecurityListenerFactory(new WsseFactory());
+    }
+
     public function getParent()
     {
         return 'FOSUserBundle';

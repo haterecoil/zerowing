@@ -20,17 +20,17 @@ class ProfileController extends BaseController
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        $urls= $user->getUrls();
+        $urls = $user->getUrls();
 
         $validationMapping = array(
             0 => "Non validé",
-            1 => "Validé"
+            1 => "Validé",
         );
 
         $dataMapper = function ($item) use ($validationMapping) {
             return array(
                 "url" => $item->getUrl(),
-                "validation" => $validationMapping[$item->getValidation()]
+                "validation" => $validationMapping[$item->getValidation()],
             );
         };
 

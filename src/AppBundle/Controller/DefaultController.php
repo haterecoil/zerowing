@@ -2,12 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Siteclient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use AppBundle\Entity\Siteclient;
 
 class DefaultController extends Controller
 {
@@ -15,11 +14,49 @@ class DefaultController extends Controller
     static $verificationFile = "code_zerowing_dfgsdgdfgdfgsfgdfgdg.html";
 
     // utilitaire pour vérifier qu'un site a bien installé le fichier de vérification
-    private function verifierCode($site) {
-        $codeUrl = strtolower($site) . "/" . self::$verificationFile;
+
+    /**
+     * @Route("/zerowing/")
+     */
+    public function zerowingAction(Request $request)
+    {
+        return $this->render('zerowing/index.html.twig', array());
+    }
+
+    /**
+     * @Route("/zerowing/ajouter")
+     */
+    public function zerowingAjouterAction(Request $request)
+    {
+        $url = $request->get("url");
+
+        return $this->render('zerowing/Process.html.twig', array(
+            'url' => $url,
+        ));
+    }
+
+    /**
+     * @Route("/zerowing/tests")
+     */
+    public function zerowingTestsAction(Request $request)
+    {
+        $url = $request->get("url");
+
+        if ($this->verifierCode($url)) {
+            return $this->render('zerowing/Process.html.twig', array(
+                'url' => $url,
+            ));
+        } else {
+            return $this->redirect('/zerowing/procedure?url'.$url);
+        }
+    }
+
+    private function verifierCode($site)
+    {
+        $codeUrl = strtolower($site)."/".self::$verificationFile;
 
         if (substr($codeUrl, 0, 7) !== "http://" || substr($codeUrl, 0, 8) !== "https://") {
-            $codeUrl = "http://" . $codeUrl;
+            $codeUrl = "http://".$codeUrl;
         }
 
         $code = "";
@@ -37,49 +74,14 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/zerowing/")
-     */
-    public function zerowingAction(Request $request)
-    {
-        return $this->render('zerowing/index.html.twig', array());
-    }
-
-    /**
-     * @Route("/zerowing/ajouter")
-     */
-    public function zerowingAjouterAction(Request $request)
-    {
-        $url = $request->get("url");
-        return $this->render('zerowing/Process.html.twig', array(
-            'url' => $url
-        ));
-    }
-
-    /**
-     * @Route("/zerowing/tests")
-     */
-    public function zerowingTestsAction(Request $request)
-    {
-        $url = $request->get("url");
-
-        if ($this->verifierCode($url)) {
-            return $this->render('zerowing/Process.html.twig', array(
-                'url' => $url
-            ));
-        } else {
-            return $this->redirect('/zerowing/procedure?url' . $url);
-        }
-    }
-
-
-    /**
      * @Route("/zerowing/procedure")
      */
     public function zerowingProcedureAction(Request $request)
     {
         $url = $request->get("url");
+
         return $this->render('zerowing/procedure.html.twig', array(
-            'url' => $url
+            'url' => $url,
         ));
     }
 
@@ -89,7 +91,7 @@ class DefaultController extends Controller
     public function zerowingTelechargerAction(Request $request)
     {
         $response = new Response(self::$verificationCode);
-        $response->headers->set('Content-Disposition', 'attachment; filename="' . self::$verificationFile . '"');
+        $response->headers->set('Content-Disposition', 'attachment; filename="'.self::$verificationFile.'"');
 
         return $response;
     }
@@ -106,8 +108,7 @@ class DefaultController extends Controller
         $siteclient = new SiteCLient();
         //Verification et Enregistrement de l'url dans la base
 
-        if  ((!$this->verifierCode($url)))
-        {
+        if ((!$this->verifierCode($url))) {
             $siteclient->setUrl($url);
             $siteclient->setValidation(0);
             $siteclient->setUser($user);
@@ -117,7 +118,7 @@ class DefaultController extends Controller
                 $em->flush();
             } catch (\Exception $e) {
                 // montrer un message à l'utilisateur pour dire que le site n'existe pas
-                return $this->redirect('/zerowing/procedure?url='. $url);
+                return $this->redirect('/zerowing/procedure?url='.$url);
 
             }
         } else {
@@ -129,27 +130,28 @@ class DefaultController extends Controller
                 $em->persist($siteclient);
                 $em->flush();
             } catch (\Exception $e) {
-                return $this->redirect('/zerowing/tests?url='. $url);
+                return $this->redirect('/zerowing/tests?url='.$url);
             }
         }
     }
+
     /**
      * @Route("/zerowing/listetests")
      */
     public function zerowinglistetestsAction(Request $request)
     {
         $user = $this->getUser();
-        $urls= $user->getUrls();
+        $urls = $user->getUrls();
 
         $validationMapping = array(
             0 => "Non validé",
-            1 => "Validé"
+            1 => "Validé",
         );
 
         $dataMapper = function ($item) use ($validationMapping) {
             return array(
                 "url" => $item->getUrl(),
-                "validation" => $validationMapping[$item->getValidation()]
+                "validation" => $validationMapping[$item->getValidation()],
             );
         };
 
