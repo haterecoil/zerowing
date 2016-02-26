@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Account
@@ -33,9 +35,23 @@ class Account
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=100, nullable=false)
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     *
+     * @Exclude
      */
     private $password;
 
+    /**
+     * Account constructor.
+     * @param string $username
+     * @param string $password
+     */
+    public function __construct($username = '', $password = '')
+    {
+        $this->username = $username;
+        $this->password = $password;
+    }
 
 
     /**
@@ -52,7 +68,7 @@ class Account
      * Set username
      *
      * @param string $username
-     * @return Accounts
+     * @return Account
      */
     public function setUsername($username)
     {
@@ -75,7 +91,7 @@ class Account
      * Set password
      *
      * @param string $password
-     * @return Accounts
+     * @return Account
      */
     public function setPassword($password)
     {

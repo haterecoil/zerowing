@@ -4,6 +4,9 @@ namespace AppBundle\Entity;
 
 use AppBundle\Utils\Target\FuzzTarget;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation;
+use JMS\Serializer\Annotation\Exclude;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * FuzzingUri
@@ -26,6 +29,10 @@ class FuzzingUri
      * @var string
      *
      * @ORM\Column(name="uri", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     *
+     * @Exclude
      */
     private $uri;
 
@@ -33,12 +40,17 @@ class FuzzingUri
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private $type;
 
     /**
      * @var string
      * @ORM\Column(name="http_method", type="string", length=7)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Choice(choices = {"GET", "POST", "PUT", "DELETE"})
      */
     private $http_method;
 
@@ -46,20 +58,43 @@ class FuzzingUri
      * @var array
      *
      * @ORM\Column(name="http_target", type="array")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private $http_target;
 
     /**
      * @var string
-     * @ORM\Column(name="csrf", type="string", length=64)
+     * @ORM\Column(name="csrf", type="string", length=64, nullable=true)
      */
     private $csrf;
 
     /**
      * @var string
      * @ORM\Column(name="match_success", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private $match_success;
+
+    /**
+     * FuzzingUri constructor.
+     * @param string $uri
+     * @param string $type
+     * @param string $http_method
+     * @param array $http_target
+     * @param string $csrf
+     * @param string $match_success
+     */
+    public function __construct($uri = '', $type = '', $http_method = '', $http_target = array(), $match_success = '', $csrf = '' )
+    {
+        $this->uri = $uri;
+        $this->type = $type;
+        $this->http_method = $http_method;
+        $this->http_target = $http_target;
+        $this->csrf = $csrf;
+        $this->match_success = $match_success;
+    }
 
 
     /**

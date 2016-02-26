@@ -9,7 +9,7 @@ services:
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     app.pentester.sql:
         class: AppBundle\Utils\Pentester\SqlPentester
-        arguments: ["@guzzle.client"]
+        arguments: ["@guzzle.client", "@doctrine.orm.entity_manager"]
     app.pentester.fuzz:
         class: AppBundle\Utils\Pentester\FuzzPentester
         arguments: ["@guzzle.client", "@doctrine.orm.entity_manager", "@app.bruteforcer.easypasswords"]
@@ -21,6 +21,19 @@ services:
         class: %guzzle.plugin.cookie.class%
         calls:
             - [addSubscriber, ['@guzzle.client']]
+
+    wsse.security.authentication.provider:
+        class: AppBundle\Security\Authentication\Provider\WsseProvider
+        arguments:
+            - '@fos_user.'
+            - '%kernel.cache_dir%/security/nonces'
+        public: false
+
+    wsse.security.authentication.listener:
+        class: AppBundle\Security\Firewall\WsseListener
+        arguments: ['@security.token_storage', '@security.authentication.manager']
+        public: false
+
     app.authentification_listener:
         class: AppBundle\EventListener\AuthentificationListener
         arguments:

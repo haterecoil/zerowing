@@ -2,8 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use FOS\RestBundle\View\View;
 use FOS\UserBundle\Controller\ProfileController as BaseController;
+use FOS\UserBundle\Model\User;
 use FOS\UserBundle\Model\UserInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ProfileController extends BaseController
@@ -11,10 +14,8 @@ class ProfileController extends BaseController
     /**
      * Show the user
      */
-    public function showAction()
+    public function showProfileAction(\AppBundle\Entity\User $user)
     {
-        $user = $this->getUser();
-
         if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
@@ -35,9 +36,6 @@ class ProfileController extends BaseController
 
         $urls = array_map($dataMapper, $urls->toArray());
 
-        return $this->render('FOSUserBundle:Profile:show.html.twig', array(
-            'user' => $user,
-            'urls' => $urls
-        ));
+        return new View($user, Response::HTTP_OK);
     }
 }

@@ -47,6 +47,7 @@ class AuthentificationListener
 
 
         $content = $request->getContent();
+
         $input = json_decode($content, true);
 
         // check authentification

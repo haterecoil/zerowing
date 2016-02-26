@@ -1,4 +1,0 @@
-app_xssattack:
-    resource: "@AppBundle/Controller/"
-    type: annotation
-    prefix:

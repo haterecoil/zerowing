@@ -76,3 +76,23 @@ fos_user:
 services:
     fos_user.doctrine_registry:
         alias: doctrine
+
+
+fos_rest:
+#    disable_csrf_role: ROLE_API
+    body_converter:
+            enabled: true
+            validate: true
+            validation_errors_argument: validationErrors # This is the default value
+    routing_loader:
+        include_format: false
+    view:
+        view_response_listener: 'force'
+        formats:
+            json: true
+    format_listener:
+        rules:
+            - { path: ^/api, priorities: [ json ], fallback_format: json, prefer_extension: true }
+
+sensio_framework_extra:
+    request: { converters: true }
