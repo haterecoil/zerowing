@@ -13,3 +13,6 @@ account:
 property:
     type: rest
     resource: @AppBundle/Controller/PropertyController.php
+pentesting:
+    type: annotation
+    resource: @AppBundle/Controller/PentestController.php
