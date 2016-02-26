@@ -9,7 +9,7 @@ services:
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     app.pentester.sql:
         class: AppBundle\Utils\Pentester\SqlPentester
-        arguments: ["@guzzle.client"]
+        arguments: ["@guzzle.client", "@doctrine.orm.entity_manager"]
     app.pentester.fuzz:
         class: AppBundle\Utils\Pentester\FuzzPentester
         arguments: ["@guzzle.client", "@doctrine.orm.entity_manager", "@app.bruteforcer.easypasswords"]

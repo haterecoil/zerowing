@@ -4,137 +4,115 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\FuzzingUri;
 use AppBundle\Form\FuzzingUriType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * FuzzingUri controller.
- *
- * @Route("/fuzzinguri")
+ * Rest controller for FuzzingUris.
  */
-class FuzzingUriController extends Controller
+class FuzzController extends FOSRestController
 {
+
+    /**
+     * @param FuzzingUri $fuzzing_uri
+     * @return FuzzingUri|null|object
+     */
+    public function getFuzzAction(FuzzingUri $fuzzing_uri)
+    {
+        return $fuzzing_uri;
+    }
+
     /**
      * Lists all FuzzingUri entities.
-     *
-     * @Route("/", name="fuzzinguri_index")
-     * @Method("GET")
      */
-    public function indexAction()
+    public function indexFuzzAction()
     {
         $em = $this->getDoctrine()->getManager();
 
         $fuzzingUris = $em->getRepository('AppBundle:FuzzingUri')->findAll();
 
-        return $this->render('@App/Forms/fuzzinguri/index.html.twig', array(
-            'fuzzingUris' => $fuzzingUris,
-        ));
+        $view = $this->view($fuzzingUris, 200);
+
+        return $this->handleView($view);
     }
 
-    /**
-     * Creates a new FuzzingUri entity. Uses the FuziingUriType
-     *
-     * @Route("/new", name="fuzzinguri_new")
-     * @Method({"GET", "POST"})
-     */
-    public function newAction(Request $request)
+
+    public function postFuzzAction(Request $request)
     {
-        $fuzzingUri = new FuzzingUri();
-        $form = $this->createForm('AppBundle\Form\FuzzingUriType', $fuzzingUri);
+        // a placeholder for the form
+        $fuzzing_uri = new FuzzingUri();
+        // createForm is provided by the parent class
+        $form = $this->createForm(
+            new FuzzingUriType(),
+            $fuzzing_uri
+        );
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($fuzzingUri);
-            $em->flush();
-
-            return $this->redirectToRoute('fuzzinguri_show', array('id' => $fuzzingUri->getId()));
+        $errors = $this->get('validator')->validate($fuzzing_uri);
+        if (count($errors) > 0) {
+            return new View(
+                $errors,
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
         }
 
-        return $this->render('@App/Forms/fuzzinguri/new.html.twig', array(
-            'fuzzingUri' => $fuzzingUri,
-            'form' => $form->createView(),
-        ));
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($fuzzing_uri);
+        $manager->flush();
+
+        // created => 201
+        return new View(array('fuzzing' => $fuzzing_uri), Response::HTTP_CREATED);
     }
 
-    /**
-     * Finds and displays a FuzzingUri entity.
-     *
-     * @Route("/{id}", name="fuzzinguri_show")
-     * @Method("GET")
-     */
-    public function showAction(FuzzingUri $fuzzingUri)
-    {
-        $deleteForm = $this->createDeleteForm($fuzzingUri);
-
-        return $this->render('@App/Forms/fuzzinguri/show.html.twig', array(
-            'fuzzingUri' => $fuzzingUri,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
 
     /**
-     * Creates a form to delete a FuzzingUri entity.
-     *
-     * @param FuzzingUri $fuzzingUri The FuzzingUri entity
-     *
-     * @return \Symfony\Component\Form\Form The form
+     * @param FuzzingUri $fuzzing_uri
+     * @return FuzzingUri
      */
-    private function createDeleteForm(FuzzingUri $fuzzingUri)
+    public function editFuzzAction(FuzzingUri $fuzzing_uri)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('fuzzinguri_delete', array('id' => $fuzzingUri->getId())))
-            ->setMethod('DELETE')
-            ->getForm();
+        return $fuzzing_uri;
     }
 
     /**
      * Displays a form to edit an existing FuzzingUri entity.  Uses the FuziingUriType
-     *
-     * @Route("/{id}/edit", name="fuzzinguri_edit")
-     * @Method({"GET", "POST"})
+     * @param FuzzingUri $fuzzing_uri
+     * @return View
      */
-    public function editAction(Request $request, FuzzingUri $fuzzingUri)
+    public function putFuzzAction(FuzzingUri $fuzzing_uri)
     {
-        $deleteForm = $this->createDeleteForm($fuzzingUri);
-        $editForm = $this->createForm('AppBundle\Form\FuzzingUriType', $fuzzingUri);
-        $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($fuzzingUri);
-            $em->flush();
-
-            return $this->redirectToRoute('fuzzinguri_edit', array('id' => $fuzzingUri->getId()));
+        $errors = $this->get('validator')->validate($fuzzing_uri);
+        if (count($errors) > 0) {
+            return new View(
+                $errors,
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
         }
 
-        return $this->render('@App/Forms/fuzzinguri/edit.html.twig', array(
-            'fuzzingUri' => $fuzzingUri,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($fuzzing_uri);
+        $manager->flush();
+
+        // created => 201
+        return new View(array('fuzzing' => $fuzzing_uri), Response::HTTP_CREATED);
     }
 
     /**
      * Deletes a FuzzingUri entity.
-     *
-     * @Route("/{id}", name="fuzzinguri_delete")
-     * @Method("DELETE")
+     * @param FuzzingUri $fuzzingUri
+     * @return View
      */
-    public function deleteAction(Request $request, FuzzingUri $fuzzingUri)
+    public function deleteFuzzAction(FuzzingUri $fuzzingUri)
     {
-        $form = $this->createDeleteForm($fuzzingUri);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($fuzzingUri);
-            $em->flush();
-        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($fuzzingUri);
+        $em->flush();
 
-        return $this->redirectToRoute('fuzzinguri_index');
+        return $this->routeRedirectView('index', array(), Response::HTTP_NO_CONTENT);
     }
 }

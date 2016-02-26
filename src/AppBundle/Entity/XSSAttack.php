@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * XSSAttack
@@ -25,8 +26,19 @@ class XSSAttack
      * @var string
      *
      * @ORM\Column(name="message", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private $message;
+
+    /**
+     * XSSAttack constructor.
+     * @param string $message
+     */
+    public function __construct($message = '')
+    {
+        $this->message = $message;
+    }
 
 
     /**

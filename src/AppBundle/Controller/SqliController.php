@@ -8,60 +8,122 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\SqlError;
+use AppBundle\Form\SqlErrorType;
+use AppBundle\Utils\Pentester;
 use AppBundle\Utils\Reporter;
 use AppBundle\Utils\Target;
-use AppBundle\Utils\Pentester;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\View\View;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class SqlErrorController extends Controller
+class SqliController extends FOSRestController
 {
 
     /**
-     * Stores all reports made by Pentesters
-     * @var  Reporter\Report[]
+     * @param SqlError $sql_error
+     * @return SqlError|null|object
      */
-    private $_log;
-
-    public function indexAction(Request $request)
+    public function getSqliAction(SqlError $sql_error)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-        ));
+        return $sql_error;
     }
 
     /**
-     * Receive a request OK
-     * Creates a Target OK
-     * Calls Ryan Gosling with Target OK
-     * Sends a Response OK
-     *
-     * @Route("/sql-error")
+     * Lists all SqlError entities.
      */
-    public function doSqlError(Request $request)
+    public function indexSqliAction()
     {
-        //création de la target
-        $target = new Target\SqlTarget();
-        $target->setUrl($request->get('url'));
-        $target->setParameters($request->query->all());
+        $em = $this->getDoctrine()->getManager();
 
-        /**
-         * SQL pentesting service
-         * todo put in priv var ?
-         * @var $sqlPentester Pentester\SqlPentester
-         */
-        //création du goslinger
-        $goslingPentester = $this->get('app.pentester.sql');
+        $sql_errors = $em->getRepository('AppBundle:SqlError')->findAll();
 
-        //appel du goslinger et sauvegarde des logs
-        $this->_log[] = $goslingPentester->testAndGetReport($target);
+        $view = $this->view($sql_errors, 200);
 
-        //renvoyer une réponse
-        return $this->render('@App/dump.html.twig', array(
-            'report' => $this->_log
-        ));
+        return $this->handleView($view);
+    }
+
+
+    /**
+     * @param Request $request
+     * @return View
+     */
+    public function postSqliAction(Request $request)
+    {
+        // a placeholder for the form
+        $sql_error = new SqlError();
+        // createForm is provided by the parent class
+        $form = $this->createForm(
+            new SqlErrorType(),
+            $sql_error
+        );
+
+        $form->handleRequest($request);
+
+        $errors = $this->get('validator')->validate($sql_error);
+        if (count($errors) > 0) {
+            return new View(
+                $errors,
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($sql_error);
+        $manager->flush();
+
+        // created => 201
+        return new View(array('fuzzing' => $sql_error), Response::HTTP_CREATED);
+    }
+
+
+    /**
+     * @param SqlError $sql_error
+     * @return SqlError
+     */
+    public function editSqliAction(SqlError $sql_error)
+    {
+        return $sql_error;
+    }
+
+    /**
+     * Displays a form to edit an existing SqlError entity.  Uses the FuziingUriType
+     * @param SqlError $sql_error
+     * @return View
+     */
+    public function putSqliAction(SqlError $sql_error)
+    {
+
+        $errors = $this->get('validator')->validate($sql_error);
+        if (count($errors) > 0) {
+            return new View(
+                $errors,
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($sql_error);
+        $manager->flush();
+
+        // created => 201
+        return new View(array('fuzzing' => $sql_error), Response::HTTP_CREATED);
+    }
+
+    /**
+     * Deletes a SqlError entity.
+     * @param SqlError $sql_error
+     * @return View
+     */
+    public function deleteSqliAction(SqlError $sql_error)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($sql_error);
+        $em->flush();
+
+        return $this->routeRedirectView('index', array(), Response::HTTP_NO_CONTENT);
     }
 }
 

@@ -15,13 +15,13 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 /**
  * @Route("/XSSAttack")
  */
-class XSSAttackController extends Controller
+class XssController extends Controller
 {
     /**
      * Lists all XSSAttack entities.
      *@Route("/all", name="xssattack_index")
      */
-    public function indexAction()
+    public function indexXssAction()
     {
         /**
          * @var \Guzzle\Service\Client $client
@@ -29,9 +29,6 @@ class XSSAttackController extends Controller
         $client = $this->get('guzzle.client');
         $request = $client->get('http://lorem.ovh/');
         $result = $request->send();
-
-        dump($result);
-        die();
 
         $em = $this->getDoctrine()->getManager();
 
@@ -45,7 +42,7 @@ class XSSAttackController extends Controller
      * Creates a new XSSAttack entity.
      *@Route("/new", name="xssattack_new")
      */
-    public function newAction(Request $request)
+    public function newXssAction(Request $request)
     {
         $xSSAttack = new XSSAttack();
         $form = $this->createForm('AppBundle\Form\XSSAttackType', $xSSAttack);
@@ -70,7 +67,7 @@ class XSSAttackController extends Controller
      *@Route("/show/{id}", name="xssattack_show")
      *
      */
-    public function showAction(XSSAttack $xSSAttack)
+    public function showXssAction(XSSAttack $xSSAttack)
     {
         $deleteForm = $this->createDeleteForm($xSSAttack);
 
@@ -84,7 +81,7 @@ class XSSAttackController extends Controller
      * Displays a form to edit an existing XSSAttack entity.
      *@Route("/edit/{id}", name="xssattack_edit")
      */
-    public function editAction(Request $request, XSSAttack $xSSAttack)
+    public function editXssAction(Request $request, XSSAttack $xSSAttack)
     {
         $deleteForm = $this->createDeleteForm($xSSAttack);
         $editForm = $this->createForm('AppBundle\Form\XSSAttackType', $xSSAttack);
@@ -109,7 +106,7 @@ class XSSAttackController extends Controller
      * Deletes a XSSAttack entity.
      *@Route("/delete/{id}", name="xssattack_delete")
      */
-    public function deleteAction(Request $request, XSSAttack $xSSAttack)
+    public function deleteXssAction(Request $request, XSSAttack $xSSAttack)
     {
         $form = $this->createDeleteForm($xSSAttack);
         $form->handleRequest($request);

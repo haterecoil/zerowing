@@ -1,0 +1,15 @@
+fuzz:
+    type: rest
+    resource: @AppBundle/Controller/FuzzController.php
+sqli:
+    type: rest
+    resource: @AppBundle/Controller/SqliController.php
+xss:
+    type: rest
+    resource: @AppBundle/Controller/XssController.php
+account:
+    type: rest
+    resource: @AppBundle/Controller/AccountController.php
+property:
+    type: rest
+    resource: @AppBundle/Controller/PropertyController.php

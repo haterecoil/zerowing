@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Property
@@ -18,13 +20,17 @@ class Property
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Exclude()
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="base_url", type="string", length=100, nullable=false)
+     * @ORM\Column(name="base_url", type="string", length=100, nullable=false, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Url
      */
     private $baseUrl;
 
@@ -45,6 +51,16 @@ class Property
      */
     private $account;
 
+    /**
+     * Property constructor.
+     * @param string $baseUrl
+     * @param string $validationUrl
+     * @param Account $account
+     */
+    public function __construct($baseUrl = '')
+    {
+        $this->baseUrl = $baseUrl;
+    }
 
 
     /**
