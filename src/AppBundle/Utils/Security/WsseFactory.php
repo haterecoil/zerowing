@@ -48,5 +48,9 @@ class WsseFactory implements SecurityFactoryInterface
 
     public function addConfiguration(NodeDefinition $node)
     {
+        $node
+            ->children()
+            ->scalarNode('lifetime')->defaultValue(3000)
+            ->end();
     }
 }

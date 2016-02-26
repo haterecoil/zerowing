@@ -22,6 +22,8 @@ class FuzzingUri
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Exclude
      */
     private $id;
 
@@ -32,7 +34,6 @@ class FuzzingUri
      * @Assert\NotBlank()
      * @Assert\NotNull()
      *
-     * @Exclude
      */
     private $uri;
 
