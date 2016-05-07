@@ -2,19 +2,6 @@ zerowing
 ========
 
     All your servers are belong to us
-    
-    
-TODO LIST (ordered by priority) :
-
-- [ ] Add FOS User Bundle
-- [ ] FOS UB Security filter
-- [x] Provoke several SQL Errors
-- [x] Detect several SQL Errors
-- [x] Provoke 1 XSS
-- [x] Detect 1 XSS
-- [ ] PHPCS 101
-- [ ] Retrieve SQL data
-- [ ] MOAR ?
 
 TEAM :
 
@@ -30,6 +17,8 @@ TEAM :
 *Zerowing* is a pentesting API. Register, prove you are the owner of the given domain name, 
   and test your routes and pages on different attacks
   
+This API covers basic SQL injection, URL Fuzzing, bruteforce, and tests default username/passwords.
+
 ## API Documentation
 
 To be done.
